@@ -25,7 +25,7 @@ European cities.
 
 
 
-Further details about the dataset and the proposed tasks can be found on [Arxive]()
+Further details about the dataset and the proposed tasks can be found on [Arxive](https://arxiv.org/abs/2304.06373)
 
 The Flatlandia data set is published under MIT license.
 
