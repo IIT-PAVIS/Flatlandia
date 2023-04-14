@@ -1,6 +1,8 @@
 # Flatlandia Examples
 
-[video3.webm](https://user-images.githubusercontent.com/32576285/229822233-c51203e1-a5af-4a2c-bae9-dae42d5b0834.webm)
+
+[video3.mp4](https://user-images.githubusercontent.com/32576285/232072824-d7c11658-e005-4d13-84bb-9940716e7769.mp4)
+
 
 ## Environment setup
 To log and visualize training information, the code we provide relies on the [Weights&Biases](https://wandb.ai/site).
@@ -19,7 +21,7 @@ We propose to approach the visual localization problem in Flatlandia as two sepa
 
 ### Coarse localization
 
-[video4.webm](https://user-images.githubusercontent.com/32576285/229822420-b849c3b8-f4a9-499f-ac65-3b9966955c28.webm)
+[video4.mp4](https://user-images.githubusercontent.com/32576285/232072884-ea2e2cf3-c8cc-475c-b953-ecbee195a9c6.mp4)
 
 
 ### Fine-grained localization
