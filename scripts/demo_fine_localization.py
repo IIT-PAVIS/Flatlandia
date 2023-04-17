@@ -162,7 +162,7 @@ def main():
 
     wandb.init(project=config['exp_name'], entity=wandb_user, config=config)
     save_path = "{}/{}/{}".format(out_path, config['exp_name'], wandb.run.name)
-    os.mkdirs(save_path)
+    os.makedirs(save_path)
 
     current_best = 90000
 
