@@ -25,4 +25,4 @@ In addition to the core Flatlandia dataset, we provide additional data that migh
 
 ## Accessing the data
 The SfM scenes contained in `data/maps` can be visualized using [Colmap](https://colmap.github.io/), using the `import model`
-option to load the `SfM` directory, after decompressing `images.zip`.  
+option to load the `SfM` directory, after decompressing `images.zip`. As we do not directly provide the original Mapillary images, to visualize them within Colmap the users would need to download the images listed in `tokens.txt` to a local repository using the official [Mapillary SDK](https://github.com/mapillary/mapillary-python-sdk), and update the `image_path` in `SfM/project.ini` accordingly.
