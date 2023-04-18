@@ -15,7 +15,7 @@ from torch.utils.data import Dataset
 import numpy as np
 from scripts.utils.common import dataset_path, local_maps_path, region_proposals_path
 import mapillary.interface as mly
-import request
+import requests
 import io
 from PIL import Image
 
