@@ -11,7 +11,8 @@ research and innovation programme under grant agreement No 870743.
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from scripts.utils.common import mapillary_access_token, local_maps_path, object_classes_dict
+from Flatlandia.scripts.utils.common import mapillary_access_token, local_maps_path
+from Flatlandia.scripts.utils.dataloader import object_classes_dict
 import mapillary.interface as mly
 import numpy as np
 import requests
@@ -73,12 +74,14 @@ def visualize_problem(data, save_path=None):
     ax['Left'].scatter(xy[0], xy[1], s=70, facecolors='none', edgecolors='r', label='Detected')
 
     # 2) Plot the image with anotatated detections
-    mly.set_access_token(mapillary_access_token)
-    image_url = mly.image_thumbnail(image_id=data['query_token'], resolution=2048)
-    image_data = requests.get(image_url, stream=True).content
-    image = Image.open(io.BytesIO(image_data))
-    ax['TopRight'].imshow(image)
-
+    try:
+        mly.set_access_token(mapillary_access_token)
+        image_url = mly.image_thumbnail(image_id=data['query_token'], resolution=2048)
+        image_data = requests.get(image_url, stream=True).content
+        image = Image.open(io.BytesIO(image_data))
+        ax['TopRight'].imshow(image)
+    except:
+        print('Unable to load image; check internet connection is enabled and Mapillary security token is working')
     for ii, bb in enumerate(data['query_detections']):
         label = object_classes_dict(data['reference_class'][data['query_matches'][ii]])
         rect = patches.Rectangle((bb[0], bb[1]), bb[2] - bb[0], bb[3] - bb[1], linewidth=1, edgecolor=colormap[label], facecolor='none')
@@ -91,7 +94,7 @@ def visualize_problem(data, save_path=None):
     q_xy = localmaps[data['reference_map']][data['query_token']]['GT']
     q_c = np.array(data['reference_class'])[data['query_matches']]
     for xy, c in zip(q_xy, q_c):
-        ax['BottomRight'].scatter(-xy[1], xy[0], s=50, c=colormap[object_classes_dict[c]])
+        ax['BottomRight'].scatter(-xy[1], xy[0], s=50, c=colormap[object_classes_dict(c)])
     ax['BottomRight'].scatter(0, 0, s=70, label='Camera', c='#003865', alpha=0.8)
 
     # Coordinates of our triangle
@@ -124,7 +127,7 @@ def visualize_problem(data, save_path=None):
 
 
 def main():
-    from scripts.utils.dataloader import FlatlandiaLoader
+    from dataloader import FlatlandiaLoader
 
     data = FlatlandiaLoader()
     for x in data:

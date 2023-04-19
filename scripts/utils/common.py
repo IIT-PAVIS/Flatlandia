@@ -17,7 +17,6 @@ local_maps_path = rootpath + 'data/local_maps.json'
 out_path = rootpath + '/models/'
 region_proposals_path = rootpath + 'data/region_proposal.json'
 
-
 # To be filled by the user as part of set up
 mapillary_access_token = 'MLY|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 wandb_user = 'XXXXXXXXXX'

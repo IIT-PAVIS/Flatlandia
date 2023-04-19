@@ -9,32 +9,32 @@ This project has received funding from the European Union's Horizon 2020
 research and innovation programme under grant agreement No 870743.
 """
 
-import dgl
-import numpy as np
 import torch
-from torch.autograd import Function
 import torch.nn as nn
 from dgl.nn import EGATConv
 import torch.nn.functional as F
 import math
-
+from dgl import DGLGraph
+from dgl.nn.pytorch import GraphConv
+from torch.nn.functional import normalize
+import dgl.function as fn
 
 #########################################################################################################
 #  Baseline Models for the Fine-grained Localization Task                                               #
 #########################################################################################################
 
 
-def select_module(mode):
+def select_module(mode, angles_as_trig=0):
     if mode == "MLP":
-        model = MLPModule()
+        model = MLPModule(3)
     elif mode == "GAT+MLP":
         model = GATMLPModule(3, n_classes=42, n_layers=2, split=True, out_size=64,
-                             only_query=True, edge_dim_in=2+config['angles_as_trig'])
+                             only_query=True, edge_dim_in=2+angles_as_trig)
     elif mode == "MLP+ATT+MLP":
         model = MLPATTMLPModule(4, n_classes=42, n_layers=2, split=True, out_size=64)
     elif mode == "GAT+ATT+MLP":
         model = GATATTMLPModule(3, n_classes=42, n_layers=2, split=True, out_size=64,
-                                only_query=True, edge_dim_in=2+config['angles_as_trig'])
+                                only_query=True, edge_dim_in=2+angles_as_trig)
     else:
         print('Module choices are [MLP, GAT+MLP, MLP+ATT+MLP, GAT+ATT+MLP]')
         return 0
@@ -143,13 +143,11 @@ class GATMLPModule(torch.nn.Module):
             edge_data = F.relu(self.lin1(e.view(len(edge_data), -1)))
             node_data = F.relu(self.lin2(h.view(len(node_data), -1)))
 
-            if self.split:
-                # Perform the Query to Reference update
-                h, e3 = self.ref_query_conv(ref_and_query, node_data, edge_data_link)
-                edge_data_link = F.relu(self.lin3(e3.view(len(edge_data_link), -1)))
-                node_data = node_data + F.relu(self.lin2a(h.view(len(node_data), -1)))
-            else:
-                edge_data = edge_data[ref_xor_query.num_edges():]
+            # Perform the Query to Reference update
+            h, e3 = self.ref_query_conv(ref_and_query, node_data, edge_data_link)
+            edge_data_link = F.relu(self.lin3(e3.view(len(edge_data_link), -1)))
+            node_data = node_data + F.relu(self.lin2a(h.view(len(node_data), -1)))
+
 
         # edge_data = self.line_predict(edge_data)
         if self.only_query:
@@ -327,13 +325,10 @@ class GATATTMLPModule(torch.nn.Module):
             edge_data = F.relu(self.lin1(e.view(len(edge_data), -1)))
             node_data = F.relu(self.lin2(h.view(len(node_data), -1)))
 
-            if self.split:
-                # Perform the Query to Reference update
-                h, e3 = self.ref_query_conv(ref_and_query, node_data, edge_data_link)
-                edge_data_link = F.relu(self.lin3(e3.view(len(edge_data_link), -1)))
-                node_data = node_data + F.relu(self.lin2a(h.view(len(node_data), -1)))
-            else:
-                edge_data = edge_data[ref_xor_query.num_edges():]
+            # Perform the Query to Reference update
+            h, e3 = self.ref_query_conv(ref_and_query, node_data, edge_data_link)
+            edge_data_link = F.relu(self.lin3(e3.view(len(edge_data_link), -1)))
+            node_data = node_data + F.relu(self.lin2a(h.view(len(node_data), -1)))
 
         # edge_data = self.line_predict(edge_data)
         if self.only_query:
@@ -347,6 +342,48 @@ class GATATTMLPModule(torch.nn.Module):
 #########################################################################################################
 #  Baseline Models for the Coarse Localization Task                                                     #
 #########################################################################################################
+
+
+class WeightedGraphConv(GraphConv):
+    """
+    Description
+    -----------
+    GraphConv with edge weights on homogeneous graphs.
+    If edge weights are not given, directly call GraphConv instead.
+    Parameters
+    ----------
+    graph : DGLGraph
+        The graph to perform this operation.
+    n_feat : torch.Tensor
+        The node features
+    e_feat : torch.Tensor, optional
+        The edge features. Default: :obj:`None`
+    """
+
+    def forward(self, graph: DGLGraph, n_feat, e_feat=None):
+        if e_feat is None:
+            return super(WeightedGraphConv, self).forward(graph, n_feat)
+
+        with graph.local_scope():
+            if self.weight is not None:
+                n_feat = torch.matmul(n_feat, self.weight)
+            src_norm = torch.pow(
+                graph.out_degrees().float().clamp(min=1), -0.5)
+            src_norm = src_norm.view(-1, 1)
+            dst_norm = torch.pow(graph.in_degrees().float().clamp(min=1), -0.5)
+            dst_norm = dst_norm.view(-1, 1)
+            n_feat = n_feat * src_norm
+            graph.ndata["h"] = n_feat
+            graph.edata["e"] = e_feat
+            graph.update_all(fn.src_mul_edge("h", "e", "m"),
+                             fn.sum("m", "h"))
+            n_feat = graph.ndata.pop("h")
+            n_feat = n_feat * dst_norm
+            if self.bias is not None:
+                n_feat = n_feat + self.bias
+            if self._activation is not None:
+                n_feat = self._activation(n_feat)
+            return n_feat
 
 
 class GCN(torch.nn.Module):
