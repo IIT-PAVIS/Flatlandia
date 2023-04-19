@@ -227,8 +227,8 @@ def assemble_graphs(problem, region_proposal=None, query='GT', knn_q=None, knn_r
 
     out = {
         'q_pose': q_pose,
-        'r': {'idx': q_idx, 'e_n': q_n, 'e_e': q_e},
-        'q': {'idx': r_idx, 'e_n': r_n, 'e_e': r_e},
+        'q': {'idx': q_idx, 'e_n': q_n, 'e_e': q_e},
+        'r': {'idx': r_idx, 'e_n': r_n, 'e_e': r_e},
         'r_xor_q': {'idx': rq_idx, 'e_n': rq_n, 'e_e': rq_e},
         'r_and_q': {'idx': np.vstack([r_idx, q_idx+len(ref_xy), rq_idx]),
                     'e_n': rq_n, 'e_e': np.vstack([r_e, q_e, rq_e])}
