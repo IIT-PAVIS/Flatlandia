@@ -175,6 +175,7 @@ def assemble_graphs(problem, region_proposal=None, query='GT', knn_q=None, knn_r
     :return: out: a dictionary of graph obtained using only the reference or the query nodes ('r', 'q'), using only
     edges connecting same-class query and reference objects ('r_xor_q'), or using all edges above (r_and_q).
     """
+
     # 1) if a subset of the reference object is provided, down-sample the reference data
     if region_proposal is None:
         ref_xy = np.array(problem['reference_xy'])
@@ -214,12 +215,22 @@ def assemble_graphs(problem, region_proposal=None, query='GT', knn_q=None, knn_r
     else:
         q_pose = np.array([0, 0, 0])
 
-    # 3) create the graphs
+    # 3) remove reference nodes with no class representation in the query
+
+    filter = [x in q_c for x in ref_c]
+    ref_xy = ref_xy[filter]
+    ref_c = ref_c[filter]
+    mask = mask.T[filter]
+
+    # 4) create the graphs
+
     q_idx, q_n, q_e = nodes_to_graph(q_xy, q_c, knn_q)
     r_idx, r_n, r_e = nodes_to_graph(ref_xy, ref_c, knn_r)
 
     rq_idx = np.argwhere(r_n[:, :-2] @ q_n[:, :-2].T)
     rq_idx[:, 1] += len(ref_xy)
+    rq_idx = np.hstack([rq_idx, rq_idx[:, ::-1]]).reshape(-1, 2)
+
     rq_n = np.vstack([r_n, q_n])
     edge_distance = [np.linalg.norm(rq_n[j, -2:]-rq_n[i, -2:]) for [i, j] in rq_idx]
     edge_orientation = [np.arctan2((rq_n[j, -1]-rq_n[i, -1]), (rq_n[j, -2]-rq_n[i, -2])) for i, j in rq_idx]
@@ -229,9 +240,12 @@ def assemble_graphs(problem, region_proposal=None, query='GT', knn_q=None, knn_r
         'q_pose': q_pose,
         'q': {'idx': q_idx, 'e_n': q_n, 'e_e': q_e},
         'r': {'idx': r_idx, 'e_n': r_n, 'e_e': r_e},
-        'r_xor_q': {'idx': rq_idx, 'e_n': rq_n, 'e_e': rq_e},
-        'r_and_q': {'idx': np.vstack([r_idx, q_idx+len(ref_xy), rq_idx]),
-                    'e_n': rq_n, 'e_e': np.vstack([r_e, q_e, rq_e])}
+        'r_and_q': {'idx': rq_idx, 'e_n': rq_n, 'e_e': rq_e},
+        'r_or_q': {'idx': np.vstack([r_idx, q_idx+len(ref_xy), rq_idx]),
+                   'e_n': rq_n, 'e_e': np.vstack([r_e, q_e, rq_e])},
+        'r_xor_q': {'idx': np.vstack([r_idx, q_idx + len(ref_xy)]),
+                   'e_n': rq_n, 'e_e': np.vstack([r_e, q_e])},
+        'ref_to_q_match': mask
     }
 
     return out
