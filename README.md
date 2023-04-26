@@ -77,7 +77,7 @@ Each dataset entry is a json file containing:
 
 - *reference_map*: the id of the Flatlandia scene (integer in the range 0-19),
 - *reference_xy*: the latitude and longitude of each object in the reference map
-- *reference_class*: the class label of each object, encoded as an integer (see `scripts/common.id_to_scene` for conversion)
+- *reference_class*: the class label of each object, encoded as an integer (see `scripts/dataloader.id_to_scene` for conversion)
 - *query_token*: the unique Mapillary token associated with the visual query,
 - *query_xy*: the location of the camera in the reference map
 - *query_theta*: the orientation of the camera
