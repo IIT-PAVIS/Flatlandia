@@ -20,6 +20,19 @@ import io
 from PIL import Image
 
 
+id_to_scene = {'0': 'BarcelonaCentre_Calle_de_Pere_IV_2_0', '1': 'BarcelonaCentre_Calle_de_Pere_IV_1',
+               '2': 'BarcelonaCentre_Gran_de_Gracia_0', '3': 'BerlinCentre_Rosenthaler_Platz_0',
+               '4': 'BerlinCentre_Torstrasse_0', '5': 'LisbonCentre_Largo_Duque_do_cadaval_0',
+               '6': 'LisbonCentre_R_de_Angora_0', '7': 'LisbonCentre_Encarnado',
+               '8': 'LisbonCentre_Square_Pedro_IV_0', '9': 'LisbonCentre_Praca_martim_moniz_0',
+               '10': 'LisbonCentre_Largo_de_Sao_Domingos_0', '11': 'LisbonCentre_Largo_do_Regedor_0',
+               '12': 'ParisRosaPark_R_Jean_Oberle_2_0', '13': 'ParisRosaPark_R_Jean_Oberle_0',
+               '14': 'ParisRosaPark_Bd_Macdonald_3', '15': 'ParisRosaPark_R_Gaston_Tessier_0',
+               '16': 'ParisCentre_R_de_Rivoli_0', '17': 'ParisRosaPark_Prv_Rosa_Parks_0',
+               '18': 'ParisRosaPark_Linear_Forest_0', '19': 'ViennaCentre_Unter_Vieduktgasse_0'
+               }
+
+
 object_classes = [
     'driveway', 'marking--discrete--arrow--left', 'marking--discrete--arrow--right',
     'marking--discrete--arrow--split-left-or-straight', 'marking--discrete--arrow--split-right-or-straight',
