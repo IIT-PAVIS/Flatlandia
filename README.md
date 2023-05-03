@@ -33,9 +33,6 @@ arXiv preprint [arXiv:2304.06373 (2023)](https://arxiv.org/abs/2304.06373).
 [video1bis.webm](https://user-images.githubusercontent.com/32576285/229825564-a3061b61-9b86-44c6-8be9-bf1ca655fdbd.webm)
 
 
-
-Further details about the dataset and the proposed tasks can be found on [Arxive](https://arxiv.org/abs/2304.06373)
-
 The Flatlandia data set is published under MIT license.
 
 If you use this code in your research, please acknowledge it as:
