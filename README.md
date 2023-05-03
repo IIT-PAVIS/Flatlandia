@@ -19,7 +19,16 @@ As existing datasets are unsuited for the proposed problem, we designed a novel 
 visual localization, based on the crowd-sourced data available in [Mapillary](https://www.mapillary.com/app/) for five 
 European cities. 
 
-
+The code in this repository is part of the paper:
+<br>
+**["You are here! Finding position and orientation on a 2D map from a single image: The Flatlandia localization problem and dataset."](https://arxiv.org/abs/2304.06373)**
+<br>
+ <a href='https://pavis.iit.it/web/pattern-analysis-and-computer-vision/people-details/-/people/matteo-toso'>Matteo Toso</a>,
+ <a href='https://pavis.iit.it/web/pattern-analysis-and-computer-vision/people-details/-/people/matteo-taiana'>Matteo Taiana</a>,
+ <a href='https://pavis.iit.it/web/pattern-analysis-and-computer-vision/people-details/-/people/stuart-james'>Stuart James</a> and
+ <a href='https://pavis.iit.it/web/pattern-analysis-and-computer-vision/people-details/-/people/alessio-delbue'>Alessio Del Bue</a>.
+<br>
+arXiv preprint [arXiv:2304.06373 (2023)](https://arxiv.org/abs/2304.06373).
 
 [video1bis.webm](https://user-images.githubusercontent.com/32576285/229825564-a3061b61-9b86-44c6-8be9-bf1ca655fdbd.webm)
 
@@ -28,6 +37,15 @@ European cities.
 Further details about the dataset and the proposed tasks can be found on [Arxive](https://arxiv.org/abs/2304.06373)
 
 The Flatlandia data set is published under MIT license.
+
+If you use this code in your research, please acknowledge it as:
+
+@article{toso2023you,
+  title={You are here! Finding position and orientation on a 2D map from a single image: The Flatlandia localization problem and dataset},
+  author={Toso, Matteo and Taiana, Matteo and James, Stuart and Del Bue, Alessio},
+  journal={arXiv preprint arXiv:2304.06373},
+  year={2023}
+}
 
 ## Project set up
 We developed Flatlandia using the Ubuntu operative system, but we expect that it can be run on other operating systems.
