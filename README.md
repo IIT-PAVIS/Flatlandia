@@ -40,12 +40,12 @@ The Flatlandia data set is published under MIT license.
 
 If you use this code in your research, please acknowledge it as:
 
-  @article{toso2023you,
-    title={You are here! Finding position and orientation on a 2D map from a single image: The Flatlandia localization problem and dataset},
-    author={Toso, Matteo and Taiana, Matteo and James, Stuart and Del Bue, Alessio},
-    journal={arXiv preprint arXiv:2304.06373},
-    year={2023}
-  }
+    @inproceedings{toso2023you,
+    Title = {You are here! Finding position and orientation on a 2D map from a single image: The Flatlandia localization problem and dataset},
+    Author = {Toso, Matteo and Taiana, Matteo and James, Stuart and Del Bue, Alessio},
+    booktitle = {arXiv preprint arXiv:2304.06373},
+    Year = {2023},
+    }
 
 ## Project set up
 We developed Flatlandia using the Ubuntu operative system, but we expect that it can be run on other operating systems.
