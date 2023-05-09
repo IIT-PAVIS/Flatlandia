@@ -112,7 +112,8 @@ class FlatlandiaLoader(Dataset):
             'intrinsics': scene['queries'][token]['intrinsics']
         }
         except:
-            print('pippo')
+            print('Error, the desired problem is not available')
+            out = None
         return out
 
     def get_region_proposal(self, token, mode='GT', select='CoarseBB'):
@@ -152,7 +153,7 @@ def nodes_to_graph(nodes_xy, classes, knn):
     if knn is None:
         idx = fully_connected_idx(len(xy))
     else:
-        idx_i = np.tile(range(len(xy)), min([knn, len(xy)]))
+        idx_i = np.tile(range(len(xy)), (min([knn, len(xy)]), 1)).T.reshape(-1)
         idx_f = np.array(np.argsort(distances, 1)[:, :min([knn, len(xy)])]).reshape(-1)
         idx = [idx_i, idx_f]
     idx = np.array(idx).T
