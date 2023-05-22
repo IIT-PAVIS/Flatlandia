@@ -76,6 +76,16 @@ def object_classes_dict(x, simple=True):
         return object_classes[x]
 
 
+def get_distance_matrix(xy):
+    if len(xy.shape) < 3:
+        xy = xy.reshape(1, len(xy), -1)
+
+    inner = np.matmul(xy, xy.transpose(0, 2, 1))
+    xx = np.sum(xy ** 2, axis=2, keepdims=True)
+    pairwise_distance = np.abs(xx - 2 * inner + xx.transpose(0, 2, 1))
+    return np.sqrt(pairwise_distance)
+
+
 class FlatlandiaLoader(Dataset):
     def __init__(self, data_mode='training', data_subset=False):
         """
@@ -143,12 +153,9 @@ def nodes_to_graph(nodes_xy, classes, knn):
              edge_embedding: [NE, 2] concatenated distance and relative orientation of each graph edge
     """
     # 1) compute the distance between pairs of nodes
-    distances = np.zeros([len(nodes_xy), len(nodes_xy)])
-    xy = np.array(nodes_xy)
-    for i in range(0, len(nodes_xy)):
-        for j in range(i+1, len(nodes_xy)):
-            distances[i, j] = np.linalg.norm(xy[i]-xy[j])
-    distances += distances.T
+
+    distances = get_distance_matrix(xy)
+
     # 2) define connectivity
     if knn is None:
         idx = fully_connected_idx(len(xy))
