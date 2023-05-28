@@ -77,6 +77,7 @@ def object_classes_dict(x, simple=True):
 
 
 def get_distance_matrix(xy):
+    xy = np.array(xy)
     if len(xy.shape) < 3:
         xy = xy.reshape(1, len(xy), -1)
 
@@ -143,9 +144,9 @@ def get_image(token, mapillary_access_token, resolution=2048):
     return image
 
 
-def nodes_to_graph(nodes_xy, classes, knn):
+def nodes_to_graph(xy, classes, knn):
     """
-    :param nodes_xy:
+    :param xy:
     :param classes:
     :param knn:
     :return: idx: [NE,2] source and destination node id for each graph edge
@@ -154,7 +155,7 @@ def nodes_to_graph(nodes_xy, classes, knn):
     """
     # 1) compute the distance between pairs of nodes
 
-    distances = get_distance_matrix(xy)
+    distances = get_distance_matrix(xy)[0]
 
     # 2) define connectivity
     if knn is None:
