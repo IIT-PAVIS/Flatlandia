@@ -3,7 +3,7 @@
 ## Introduction
 
 
-[intro.webm](https://user-images.githubusercontent.com/32576285/231718784-c65424f5-91fe-4659-b1df-6e50b40f3ef8.webm)
+[video_intro.webm](assets%2Fvideo_intro.webm)
 
 
 
@@ -30,8 +30,7 @@ The code in this repository is part of the paper:
 <br>
 arXiv preprint [arXiv:2304.06373 (2023)](https://arxiv.org/abs/2304.06373).
 
-[video1bis.webm](https://user-images.githubusercontent.com/32576285/229825564-a3061b61-9b86-44c6-8be9-bf1ca655fdbd.webm)
-
+[video_dataset.webm](assets%2Fvideo_dataset.webm)
 
 The Flatlandia data set is published under MIT license.
 
@@ -67,7 +66,7 @@ to obtain an access token. This token then has to be added to `scripts/utils/com
 ## The Flatlandia dataset
 
 
-[video2.webm](https://user-images.githubusercontent.com/32576285/229826247-e8cceb5f-5775-46d9-90f9-c73c062f298c.webm)
+[video_vienna.webm](assets%2Fvideo_vienna.webm)
 
 
 
