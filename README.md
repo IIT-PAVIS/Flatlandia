@@ -29,7 +29,7 @@ The code in this repository is part of the paper:
 <br>
 arXiv preprint [arXiv:2304.06373 (2023)](https://arxiv.org/abs/2304.06373).
 
-[video_dataset.webm](assets%2Fvideo_dataset.webm)
+[video_dataset.webm](https://github.com/IIT-PAVIS/Flatlandia/assets/32576285/62d8799a-e198-456c-9daf-1cb6d52d4f2f)
 
 The Flatlandia data set is published under MIT license.
 
@@ -65,7 +65,8 @@ to obtain an access token. This token then has to be added to `scripts/utils/com
 ## The Flatlandia dataset
 
 
-[video_vienna.webm](assets%2Fvideo_vienna.webm)
+[video_vienna.webm](https://github.com/IIT-PAVIS/Flatlandia/assets/32576285/930481a9-1c7a-4733-9841-b20e3b2a5ff0)
+
 
 
 
