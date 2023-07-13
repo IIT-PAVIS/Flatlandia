@@ -3,8 +3,7 @@
 ## Introduction
 
 
-[video_intro.webm](assets%2Fvideo_intro.webm)
-
+[video_intro.webm](https://github.com/IIT-PAVIS/Flatlandia/assets/32576285/fd130c06-f7a7-42fc-b58a-be8db0ad09d1)
 
 
 We introduce the Flatlandia dataset, a novel problem for visual localization from object detections and annotated object 
